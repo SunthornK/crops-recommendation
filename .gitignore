@@ -1,0 +1,35 @@
+# Binary files
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+*.out
+*.test
+
+# OS and IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Logs and cache
+*.log
+*.cache
+/tmp/
+node_modules/
+
+# Go specific
+/go/
+*.mod
+*.sum
+vendor/
+
+# Build and deployment
+bin/
+dist/
+.env
+.env.local
+.env.*
+!.env.example

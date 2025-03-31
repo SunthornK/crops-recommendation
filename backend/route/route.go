@@ -11,4 +11,6 @@ func SetupRouter(router *gin.Engine, db *sql.DB) {
 	repo := repositories.NewSensorRepository(db)
 	handler := handler.NewSensorHandler(repo)
 	router.GET("/data", handler.GetAllPrimaryData)
+	router.GET("/data/latest/weather", handler.GetWeatherData)
+	router.GET("/data/latest/sensor",handler.GetlatestSensorData)
 }

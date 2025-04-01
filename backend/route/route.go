@@ -13,4 +13,7 @@ func SetupRouter(router *gin.Engine, db *sql.DB) {
 	router.GET("/data", handler.GetAllPrimaryData)
 	router.GET("/data/latest/weather", handler.GetWeatherData)
 	router.GET("/data/latest/sensor",handler.GetlatestSensorData)
+	router.GET("/data/maxtemp/sensor",handler.GetMaxTempSensorData)
+	router.GET("/data/weather", handler.Get_weather_with_user_lon_lat)
+
 }

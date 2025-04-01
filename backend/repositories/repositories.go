@@ -1,9 +1,14 @@
 package repositories
 
 import (
-    "fmt"
-	"database/sql"
 	"crops-recommendation/backend/models"
+	"database/sql"
+	"fmt"
+	"net/http"
+	"io"
+	"os"
+	"encoding/json"
+
 )
 
 type SensorRepository struct {
@@ -72,3 +77,42 @@ func(r *SensorRepository) GetlatestSensorData()(models.SensorData, error){
 	}
 	return result, nil
 }
+
+func(r *SensorRepository) GetMaxTempSensorData() (models.SensorData, error){
+	var result models.SensorData
+	query := `SELECT max(temp) as Max_Temp 
+			FROM project
+			GROUP BY timestamp`
+	row := r.DB.QueryRow(query)
+
+	err := row.Scan(&result.Temp)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return models.SensorData{}, fmt.Errorf("no sensor data found")
+		}
+	}
+	return result, nil
+}
+
+func Get_weather_with_user_lon_lat(lat,lon string) (*models.WeatherResponse, error){
+	apiKey := os.Getenv("WEATHER_API")
+	apiURL := fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s&units=metric", lat, lon, apiKey)
+	resp, err := http.Get(apiURL)
+	if err != nil {
+		return nil, fmt.Errorf("failed to fetch weather data: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading body: %w", err)
+	}
+	
+	var weatherResponse models.WeatherResponse
+	err = json.Unmarshal(body, &weatherResponse)
+	if err != nil {
+		return nil, fmt.Errorf("error unmarshalling response: %w", err)
+	}
+	return &weatherResponse, nil
+}
+

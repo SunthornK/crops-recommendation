@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"crops-recommendation/backend/models"
 	"crops-recommendation/backend/repositories"
+	"fmt"
 	"net/http"
+
 	"github.com/gin-gonic/gin"
-
-
 )
 
 type SensorHandler struct {
@@ -87,4 +88,33 @@ func (h *SensorHandler) Get_weather_with_user_lon_lat(c *gin.Context){
 		"weather": weatherData.Weather,
 		"main": weatherData.Main,
 	})
+}
+
+func (h *SensorHandler) Predict_moist(c *gin.Context){
+	var input models.PredictMoistRequest
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	result, err := repositories.Predict_moist(input.Temparature, input.Humidity)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return 
+	}
+	fmt.Println(result)
+	c.JSON(http.StatusOK, result)
+}
+
+func (h *SensorHandler) Predict_crop(c *gin.Context){
+	var input models.PredictCropRequest
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	result, err := repositories.Predict_crop(input.Temparature, input.Humidity, input.Moisture)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return 
+	}
+	c.JSON(http.StatusOK, result)
 }

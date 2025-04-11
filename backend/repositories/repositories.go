@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"encoding/json"
+	"bytes"
 
 )
 
@@ -116,3 +117,67 @@ func Get_weather_with_user_lon_lat(lat,lon string) (*models.WeatherResponse, err
 	return &weatherResponse, nil
 }
 
+func Predict_moist(temp, humi float64) (*models.PredictMoistResponse, error){
+	moist_url := "http://localhost:8000/predict-moisture"
+	req := &models.PredictMoistRequest{
+		Temparature: temp,
+		Humidity: humi,
+	}
+
+	jsonReq, err := json.Marshal(req)
+	if err != nil {
+		return nil, fmt.Errorf("error marshalling request: %w", err)
+	}
+	fmt.Println("Sending request:", string(jsonReq)) 
+
+	resp, err := http.Post(moist_url, "application/json", bytes.NewBuffer(jsonReq))
+	if err != nil {
+		return nil, fmt.Errorf("error making request: %w", err)
+	}
+	
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading body: %w", err)
+	}
+	fmt.Println("Response Body:", string(body)) 
+
+	var result models.PredictMoistResponse
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return nil, fmt.Errorf("error unmarshalling response: %w", err)
+	}
+	return &result, nil
+}
+
+
+func Predict_crop(temp, humi, moisture float64)( *models.PredictCropResponse, error){
+	crop_url := "http://localhost:8000/predict-crop"
+	req := &models.PredictCropRequest{
+		Temparature: temp,
+		Humidity: humi,
+		Moisture: moisture,
+	}
+	jsonReq, err := json.Marshal(req)
+	if err != nil {
+		return nil, fmt.Errorf("error marshalling request: %w", err)
+	}
+	resp, err := http.Post(crop_url, "application/json", bytes.NewBuffer(jsonReq))
+	if err != nil {
+		return nil, fmt.Errorf("error making request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, fmt.Errorf("error reading body: %w", err)
+	}
+
+	var result models.PredictCropResponse
+	err = json.Unmarshal(body, &result)
+	if err != nil {
+		return nil, fmt.Errorf("error unmarshalling response: %w", err)
+	}
+	return &result, nil
+}

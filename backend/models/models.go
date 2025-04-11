@@ -24,6 +24,7 @@ type WeatherData struct {
 }
 
 
+
 type WeatherResponse struct {
 	Coord struct {
 		Lon float64 `json:"lon"`
@@ -65,3 +66,23 @@ type WeatherResponse struct {
 	Name     string `json:"name"`
 	Cod      int `json:"cod"`
 }
+
+type PredictMoistRequest struct {
+	Temparature float64 `json:"Temparature"`
+	Humidity float64 `json:"Humidity"`
+}
+
+type PredictMoistResponse struct {
+	Predict_moisture float64 `json:"predict_moist"`
+}
+
+type PredictCropRequest struct {
+	Temparature float64 `json:"Temparature"`
+	Humidity float64 `json:"Humidity"`
+	Moisture float64 `json:"Moisture"`
+}
+
+type PredictCropResponse struct {
+	Predict_crop string `json:"predict_crop"`
+}
+

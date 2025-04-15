@@ -40,6 +40,65 @@ func (r *SensorRepository) GetSensorData() ([]models.SensorData, error) {
 	return result, nil
 }
 
+func(r *SensorRepository) GetStatSensorData() (models.StatSensorData, error) {
+	var result models.StatSensorData
+
+	query := "SELECT AVG(sensor_temperature) as Avg_Temp, " +
+	"MAX(sensor_temperature) as MAX_Temp, MIN(sensor_temperature) as MIN_Temp, " +
+	"MAX(sensor_humidity) as MAX_Humi, MIN(sensor_humidity) as MIN_Humi, " +
+	"MAX(sensor_moist) as MAX_Moist, MIN(sensor_moist) as MIN_Moist, " +
+	"AVG(sensor_humidity) as Avg_Humi, AVG(sensor_moist) as Avg_Moist " +
+	"FROM merged_data"
+
+	rows, err := r.DB.Query(query)
+	if err != nil {
+		return models.StatSensorData{}, fmt.Errorf("error executing query: %v", err)
+	}
+	defer rows.Close()
+
+	if rows.Next() {
+		err = rows.Scan(&result.AvgTemp, &result.MaxTemp, &result.MinTemp, &result.MaxHumi, &result.MinHumi, &result.MaxMoist, 
+			&result.MinMoist, &result.AvgHumi, &result.AvgMoist)
+		if err != nil {
+			return models.StatSensorData{}, fmt.Errorf("error scanning row: %v", err)
+		}
+	} else {
+		return models.StatSensorData{}, fmt.Errorf("no data returned from query")
+	}
+
+	return result, nil
+}
+
+func (r *SensorRepository) GetStatWeatherData() (models.StatWeatherData, error){
+	var result models.StatWeatherData
+
+	query := "SELECT AVG(api_temperature) as Avg_Temp, MAX(api_temperature) as MAX_Temp, MIN(api_temperature) as MIN_Temp, " +
+	"MAX(api_humidity) as MAX_Humi, MIN(api_humidity) as MIN_Humi, " +
+	"AVG(api_humidity) as Avg_Humi, " +
+	"AVG(wind_speed) as Avg_Wind_Speed " +
+	"FROM merged_data"
+
+	rows, err := r.DB.Query(query)
+
+	if err != nil {
+		return models.StatWeatherData{}, fmt.Errorf("error executing query: %v", err)
+	}
+
+	defer rows.Close()
+
+	if rows.Next() {
+		err = rows.Scan(&result.AvgTemp, &result.MaxTemp, &result.MinTemp, &result.MaxHumi, &result.MinHumi ,&result.AvgHumi, &result.AvgWindSpeed)
+		if err != nil {
+			return models.StatWeatherData{}, fmt.Errorf("error scanning row: %v", err)
+		}
+	} else {
+		return models.StatWeatherData{}, fmt.Errorf("no data returned from query")
+	}
+
+	return result, nil
+}
+
+
 
 func (r *SensorRepository) GetWeatherData() (models.WeatherData, error) {
 	var result models.WeatherData

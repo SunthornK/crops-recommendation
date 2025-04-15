@@ -30,6 +30,33 @@ func (h *SensorHandler) GetAllPrimaryData(c *gin.Context){
 	})	
 }
 
+func (h *SensorHandler) GetStatSensorData(c *gin.Context){
+	data, err := h.Repo.GetStatSensorData()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": data,
+	})
+}
+
+
+func (h *SensorHandler) GetStatWeatherData(c *gin.Context){
+	data, err := h.Repo.GetStatWeatherData()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"data": data,
+	})
+}
+
 func(h *SensorHandler) GetWeatherData(c *gin.Context){
 	data, err := h.Repo.GetWeatherData()
 	if err != nil {

@@ -8,6 +8,28 @@ type SensorData struct {
 	Timestamp string `json:"timestamp"`
 }
 
+type StatSensorData struct {
+	AvgHumi float64 `json:"avg_humi"`
+	AvgTemp float64 `json:"avg_temp"`
+	AvgMoist float64 `json:"avg_moist"`
+	MaxTemp float64 `json:"max_temp"`
+	MinTemp float64 `json:"min_temp"`
+	MaxHumi float64 `json:"max_humi"`
+	MinHumi float64 `json:"min_humi"`
+	MaxMoist float64 `json:"max_moist"`
+	MinMoist float64 `json:"min_moist"`
+}
+
+type StatWeatherData struct {
+	AvgTemp float64 `json:"w_avg_temp"`
+	MaxTemp float64 `json:"w_max_temp"`
+	MinTemp float64 `json:"w_min_temp"`
+	AvgHumi float64 `json:"w_avg_humi"`
+	MaxHumi float64 `json:"w_max_humi"`
+	MinHumi float64 `json:"w_min_humi"`
+	AvgWindSpeed float64 `json:"w_avg_wind_speed"`
+}
+
 type WeatherData struct {
 	ID int `json:"id"`
 	Timestamp string `json:"timestamp"`

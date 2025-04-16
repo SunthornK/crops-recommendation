@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Index from "./pages/Index";
 import HistoricalData from "./pages/HistoricalData";
 import LocationWeatherPage from "./pages/LocationWeather";
+import Statistics from "./pages/Statistics";
 import NotFound from "./pages/NotFound";
 import Predictions from "./pages/Predictions";
 
@@ -33,6 +34,7 @@ const App = () => (
               <Route path="/historical" element={<HistoricalData />} />
               <Route path="/location" element={<LocationWeatherPage />} />
               <Route path="/predictions" element={<Predictions />} />
+              <Route path="/statistics" element={<Statistics />}/>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </div>

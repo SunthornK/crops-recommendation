@@ -62,3 +62,33 @@ export interface DateRange {
   startDate: Date;
   endDate: Date;
 }
+
+export interface SensorStats {
+    avg_humi: number;
+    avg_temp: number;
+    avg_moist: number;
+    max_temp: number;
+    min_temp: number;
+    max_humi: number;
+    min_humi: number;
+    max_moist: number;
+    min_moist: number;
+  }
+  
+  export interface WeatherStats {
+    w_avg_temp: number;
+    w_max_temp: number;
+    w_min_temp: number;
+    w_avg_humi: number;
+    w_max_humi: number;
+    w_min_humi: number;
+    w_avg_wind_speed: number;
+  }
+  
+export interface SensorStatsResponse {
+    data: SensorStats;
+  }
+  
+  export interface WeatherStatsResponse {
+    data: WeatherStats;
+  }

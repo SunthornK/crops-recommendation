@@ -1,0 +1,335 @@
+basePath: /
+definitions:
+  models.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  models.PredictCropRequest:
+    properties:
+      Humidity:
+        type: number
+      Moisture:
+        type: number
+      Temparature:
+        type: number
+    type: object
+  models.PredictCropResponse:
+    properties:
+      predict_crop:
+        type: string
+    type: object
+  models.PredictMoistRequest:
+    properties:
+      Humidity:
+        type: number
+      Temparature:
+        type: number
+    type: object
+  models.PredictMoistResponse:
+    properties:
+      predict_moist:
+        type: number
+    type: object
+  models.SensorData:
+    properties:
+      humi:
+        type: number
+      id:
+        type: integer
+      moist:
+        type: number
+      temp:
+        type: number
+      timestamp:
+        type: string
+    type: object
+  models.StatSensorData:
+    properties:
+      avg_humi:
+        type: number
+      avg_moist:
+        type: number
+      avg_temp:
+        type: number
+      max_humi:
+        type: number
+      max_moist:
+        type: number
+      max_temp:
+        type: number
+      min_humi:
+        type: number
+      min_moist:
+        type: number
+      min_temp:
+        type: number
+    type: object
+  models.StatWeatherData:
+    properties:
+      w_avg_humi:
+        type: number
+      w_avg_temp:
+        type: number
+      w_avg_wind_speed:
+        type: number
+      w_max_humi:
+        type: number
+      w_max_temp:
+        type: number
+      w_min_humi:
+        type: number
+      w_min_temp:
+        type: number
+    type: object
+  models.WeatherData:
+    properties:
+      humi:
+        type: number
+      id:
+        type: integer
+      lat:
+        type: number
+      long:
+        type: number
+      place:
+        type: string
+      temp:
+        type: number
+      temp_max:
+        type: number
+      temp_min:
+        type: number
+      timestamp:
+        type: string
+      weather:
+        type: string
+      weather_description:
+        type: string
+      wind_speed:
+        type: number
+    type: object
+  models.WeatherResponse:
+    properties:
+      base:
+        type: string
+      clouds:
+        properties:
+          all:
+            type: integer
+        type: object
+      cod:
+        type: integer
+      coord:
+        properties:
+          lat:
+            type: number
+          lon:
+            type: number
+        type: object
+      dt:
+        type: integer
+      id:
+        type: integer
+      main:
+        properties:
+          feels_like:
+            type: number
+          grnd_level:
+            type: integer
+          humidity:
+            type: integer
+          pressure:
+            type: integer
+          sea_level:
+            type: integer
+          temp:
+            type: number
+          temp_max:
+            type: number
+          temp_min:
+            type: number
+        type: object
+      name:
+        type: string
+      sys:
+        properties:
+          sunrise:
+            type: integer
+          sunset:
+            type: integer
+        type: object
+      timezone:
+        type: integer
+      visibility:
+        type: integer
+      weather:
+        items:
+          properties:
+            description:
+              type: string
+            icon:
+              type: string
+            id:
+              type: integer
+            main:
+              type: string
+          type: object
+        type: array
+      wind:
+        properties:
+          deg:
+            type: integer
+          gust:
+            type: number
+          speed:
+            type: number
+        type: object
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: crops-recommendation API documentation
+  title: crops-recommendation API
+  version: "1.0"
+paths:
+  /data:
+    get:
+      description: Fetch all primary data from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.SensorData'
+            type: array
+      summary: Get all primary data
+  /data/latest/sensor:
+    get:
+      description: Fetch weather data from sensor information from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.SensorData'
+      summary: Fetch weather data from sensor information from database
+  /data/latest/weather:
+    get:
+      description: Fetch weather information from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.WeatherData'
+      summary: Fetch weather information from database
+  /data/predict-crop:
+    post:
+      description: Predict Crop type based on temperature, humidity and moisture
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.PredictCropRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PredictCropResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Predict Crop type
+  /data/predict-moisture:
+    post:
+      description: Predict moisture level based on temperature and humidity
+      parameters:
+      - description: Request body
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/models.PredictMoistRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.PredictMoistResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Predict moisture level
+  /data/stat/sensor:
+    get:
+      description: Fetch statistic from sensor data from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StatSensorData'
+      summary: Get statistic from sensor data
+  /data/stat/weather:
+    get:
+      description: Fetch statistic from weatherAPI data from database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StatWeatherData'
+      summary: Get statistic from weather data
+  /data/weather:
+    get:
+      description: Retrieve weather data based on query parameters lat and lon
+      parameters:
+      - description: Latitude
+        in: query
+        name: lat
+        required: true
+        type: string
+      - description: Longitude
+        in: query
+        name: lon
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.WeatherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrorResponse'
+      summary: Get weather data from user's latitude and longitude
+swagger: "2.0"

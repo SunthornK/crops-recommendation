@@ -5,10 +5,16 @@ import (
 	"crops-recommendation/backend/route"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	_ "crops-recommendation/backend/docs"
 	"log"
 	"time"
 )
 
+// @title crops-recommendation API
+// @version 1.0
+// @description crops-recommendation API documentation
+// @host localhost:8080
+// @BasePath /
 func Startserver(){
 	db, err := database.ConnectDB()
 	if err != nil{

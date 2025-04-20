@@ -16,7 +16,6 @@ def predict_moist(data: PredictMoistRequest):
         return JSONResponse(content={"message": "No data provided"}, status_code=400)
     df = pd.DataFrame([data.dict()])
     prediction = moisture_model.predict(df)
-    print(prediction)
     response = PredictMoistResponse(predict_moist=prediction[0])
     return JSONResponse(content=response.dict(), status_code=200)
 

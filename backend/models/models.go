@@ -8,6 +8,10 @@ type SensorData struct {
 	Timestamp string `json:"timestamp"`
 }
 
+type ErrorResponse struct {
+	Error string `json:"error"`
+}
+
 type StatSensorData struct {
 	AvgHumi float64 `json:"avg_humi"`
 	AvgTemp float64 `json:"avg_temp"`

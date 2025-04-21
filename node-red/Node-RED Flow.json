@@ -1,0 +1,285 @@
+[
+    {
+        "id": "b92f68fceb48397f",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ce8e047c7e50eb48",
+        "type": "mqtt in",
+        "z": "b92f68fceb48397f",
+        "name": "",
+        "topic": "b6610545243/project",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "25a4387f45e7be58",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 240,
+        "y": 300,
+        "wires": [
+            [
+                "a2301fec3d1471dc"
+            ]
+        ]
+    },
+    {
+        "id": "d5d0ff092d10cf6a",
+        "type": "debug",
+        "z": "b92f68fceb48397f",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "a2301fec3d1471dc",
+        "type": "function",
+        "z": "b92f68fceb48397f",
+        "name": "function 4",
+        "func": "msg.topic = `INSERT INTO project (temp, moist, humi) \n             VALUES ( \n                     ${msg.payload.temp}, ${msg.payload.moist},${msg.payload.humi} );`;   \nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "d5d0ff092d10cf6a",
+                "40c8552d0365ba94"
+            ]
+        ]
+    },
+    {
+        "id": "40c8552d0365ba94",
+        "type": "mysql",
+        "z": "b92f68fceb48397f",
+        "mydb": "571a188069be1602",
+        "name": "",
+        "x": 660,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f99c5188d72d21bf",
+        "type": "http request",
+        "z": "b92f68fceb48397f",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.openweathermap.org/data/2.5/weather?lat=13.83&lon=100.57&appid=69d7e818688953507d715e8f64594321&units=metric",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 330,
+        "y": 440,
+        "wires": [
+            [
+                "618c589115340b70"
+            ]
+        ]
+    },
+    {
+        "id": "5501499b9fc703b2",
+        "type": "inject",
+        "z": "b92f68fceb48397f",
+        "name": "",
+        "props": [],
+        "repeat": "600",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "f99c5188d72d21bf"
+            ]
+        ]
+    },
+    {
+        "id": "618c589115340b70",
+        "type": "json",
+        "z": "b92f68fceb48397f",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 510,
+        "y": 440,
+        "wires": [
+            [
+                "61b5f622416d692c",
+                "0449f184931fdd97"
+            ]
+        ]
+    },
+    {
+        "id": "61b5f622416d692c",
+        "type": "debug",
+        "z": "b92f68fceb48397f",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 520,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "284819bfd380da69",
+        "type": "mysql",
+        "z": "b92f68fceb48397f",
+        "mydb": "571a188069be1602",
+        "name": "",
+        "x": 920,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7ca27494c50d226b",
+        "type": "function",
+        "z": "b92f68fceb48397f",
+        "name": "function 10",
+        "func": "msg.topic = `INSERT INTO secondary (temp, humidity, temp_min, temp_max, wind_speed, weather, weather_description,lat,lon,place) \n             VALUES ( \n                     ${msg.payload.temp}, \n                     ${msg.payload.humidity},\n                     ${msg.payload.temp_min},\n                     ${msg.payload.temp_max},\n                     ${msg.payload.wind_speed}, \n                     '${msg.payload.weather}', \n                     '${msg.payload.weather_description}',\n                     ${msg.payload.lat},\n                     ${msg.payload.lon},\n                     '${msg.payload.place}'\n\n\n             );`;   \nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 560,
+        "wires": [
+            [
+                "284819bfd380da69",
+                "044a2b78d8ae2cda"
+            ]
+        ]
+    },
+    {
+        "id": "0449f184931fdd97",
+        "type": "function",
+        "z": "b92f68fceb48397f",
+        "name": "function 11",
+        "func": "var data = msg.payload;\nvar result = {\n    temp: data.main.temp, // PM2.5 Level\n    lat: data.coord.lat,   // Latitude\n    lon: data.coord.lon,\n    temp_min: data.main.temp_min,\n    temp_max: data.main.temp_max, \n    humidity: data.main.humidity,\n    weather: data.weather[0].main,\n    weather_description: data.weather[0].description,\n    wind_speed: data.wind.speed,\n    place: data.name\n};\nmsg.payload = result;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 440,
+        "wires": [
+            [
+                "333b3c4f18d6eb3c",
+                "7ca27494c50d226b"
+            ]
+        ]
+    },
+    {
+        "id": "333b3c4f18d6eb3c",
+        "type": "debug",
+        "z": "b92f68fceb48397f",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "044a2b78d8ae2cda",
+        "type": "debug",
+        "z": "b92f68fceb48397f",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "25a4387f45e7be58",
+        "type": "mqtt-broker",
+        "name": "iot",
+        "broker": "iot.cpe.ku.ac.th",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "571a188069be1602",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "iot.cpe.ku.ac.th",
+        "port": "3306",
+        "db": "b6610545243",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]

@@ -69,6 +69,21 @@ A web application that visualizes the historical data with line graph, statistic
 
 # Installation
 
+### Download Golang
+- [Go download](https://go.dev/doc/install) For any linux, window, and mac
+## Alternative way (For mac and linux)
+```bash
+brew install go #For mac book
+```
+```bash
+sudo apt update
+sudo apt install golang-go   #On Linux (using APT for Ubuntu/Debian):
+```
+
+```bash
+sudo snap install go --classic #On Linux (using Snap):
+```
+
 ### Backend Setup
 
 1. Clone the repository:

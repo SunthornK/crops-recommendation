@@ -85,7 +85,7 @@
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "https://api.openweathermap.org/data/2.5/weather?lat=13.83&lon=100.57&appid=69d7e818688953507d715e8f64594321&units=metric",
+        "url": "https://api.openweathermap.org/data/2.5/weather?lat=13.83&lon=100.57&appid=?&units=metric",
         "tls": "",
         "persist": false,
         "proxy": "",

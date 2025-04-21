@@ -72,17 +72,17 @@ A web application that visualizes the historical data with line graph, statistic
 ### Download Golang
 - [Go download](https://go.dev/doc/install) For any linux, window, and mac
 ## Alternative way (For mac and linux)
-```bash
-brew install go #For mac book
-```
-```bash
-sudo apt update
-sudo apt install golang-go   #On Linux (using APT for Ubuntu/Debian):
-```
+   ```bash
+   brew install go #For mac book
+   ```
+   ```bash
+   sudo apt update
+   sudo apt install golang-go   #On Linux (using APT for Ubuntu/Debian):
+   ```
 
-```bash
-sudo snap install go --classic #On Linux (using Snap):
-```
+   ```bash
+   sudo snap install go --classic #On Linux (using Snap):
+   ```
 
 ### Backend Setup
 
@@ -92,46 +92,50 @@ sudo snap install go --classic #On Linux (using Snap):
    ```
 
 2. Create and activate a virtual environment:
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # Linux/Mac
-    venv\Scripts\activate     # Windows
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/Mac
+   venv\Scripts\activate # Windows
+   ```
 3. Install Python dependencies:
-    ```bash
-    pip install -r requirement.txt
-
+   ```bash
+   pip install -r requirements.txt
+   ```
 4. Install Golang dependencies:
-    ```bash
-    go mod tidy
-   
+   ```bash
+   go mod tidy
+   ```
 5. Database setup:   
-   * Create .env file that contain like in the env.exameple.txt
-
+   # Create .env file that contain like in the env.exameple.txt
+   ```bash
+   cd backend
+   cp .env.example .env
+   ```
 
 ### Frontend setup  
 1. Install setup for frontend
-```bash
+   ```bash
     cd frontend
     npm install 
-```
+   ```
 
 ## How to run :
 ### For backend Golang Server:
-```bash
-cd backend
-go run main.go 
-```
+   ```bash
+   cd backend
+   go run main.go 
+   ```
 ### For backend Python Server:
-```bash
-cd backend
-cd predict
-uvicorn main:app --reload
-```
+   ```bash
+   cd backend
+   cd predict
+   uvicorn main:app --reload
+   ```
 ### For Frontend:
-```bash
-cd frontend
-npm run dev
-```
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
 
 # OpenWeather API Access Guide

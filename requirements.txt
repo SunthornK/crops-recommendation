@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+pymysql
+dbutils
+cryptography
+connexion      
+pydantic
+joblib
+pandas
